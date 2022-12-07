@@ -7,10 +7,4 @@ public class Day6Tests {
         var result = Day6.SolveStar1("day6/example.txt");
         Assert.That(result, Is.EqualTo(7));
     }
-    
-    [Test]
-    public void Star2ExampleInputTest() {
-        var result = Day6.SolveStar2("day6/example.txt");
-        Assert.That(result, Is.EqualTo(-1));
-    }
 }
