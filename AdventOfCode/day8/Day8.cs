@@ -77,34 +77,6 @@ public static class Day8 {
             }
         }
 
-
-        foreach (var (x, y, tree) in grid.Enumerate()) {
-            if (x == 0) {
-                tree.VisibleLeft = true;
-            }
-
-            if (x == grid.Width - 1) {
-                tree.VisibleRight = true;
-            }
-
-            if (y == 0) {
-                tree.VisibleTop = true;
-            }
-
-            if (y == grid.Height - 1) {
-                tree.VisibleBottom = true;
-            }
-
-            var walkLeft = x - 1;
-            while (walkLeft >= 0) {
-                var test = grid.Items[walkLeft, y];
-                if (test.Height < tree.Height && tree.VisibleLeft) {
-                    
-                }
-                walkLeft--;
-            }
-        }
-
         return grid.EnumerateItems().Count(x => x.Visible);
     }
 
