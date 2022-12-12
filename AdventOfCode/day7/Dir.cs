@@ -1,4 +1,4 @@
-using AdventOfCode.day7;
+namespace AdventOfCode.day7;
 
 public class Dir {
     public Dir(string name, Dir? parent) {
