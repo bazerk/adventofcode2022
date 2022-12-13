@@ -1,6 +1,6 @@
 ﻿// https://adventofcode.com/2021
 
-using AdventOfCode.day12;
+using AdventOfCode.day13;
 
 
-Console.WriteLine($@"{Day12.SolveStar2()}");
+Console.WriteLine($@"{Day13.SolveStar2()}");
