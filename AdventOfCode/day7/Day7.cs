@@ -36,14 +36,7 @@ public static class Day7 {
     
     public static long SolveStar1(string inputFile = "day7/input.txt") {
         var root = ParseDirInfo(inputFile);
-        var dirs = new List<Dir>();
-        foreach (var dir in root.WalkDirs()) {
-            if (dir.CachedSize <= 100000) {
-                dirs.Add(dir);
-            }
-        }
-
-        return dirs.Sum(d => d.CachedSize);
+        return root.WalkDirs().Where(dir => dir.CachedSize <= 100000).Sum(d => d.CachedSize);
     }
 
     public static long SolveStar2(string inputFile = "day7/input.txt") {
