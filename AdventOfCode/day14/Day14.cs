@@ -51,7 +51,6 @@ public static class Day14 {
         while (!fellIntoTheVoid) {
             var (sandX, sandY) = (500, 0);
             while (sandY < maxY) {
-                // try below
                 if (!grid.ContainsKey((sandX, sandY + 1))) {
                     sandY += 1;
                     continue;
@@ -88,7 +87,6 @@ public static class Day14 {
         while (!grid.ContainsKey((500, 0))) {
             var (sandX, sandY) = (500, 0);
             while (true) {
-                // try below
                 if (sandY < floorY - 1) {
                     if (!grid.ContainsKey((sandX, sandY + 1))) {
                         sandY += 1;
