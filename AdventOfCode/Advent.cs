@@ -3,4 +3,4 @@
 using AdventOfCode.day16;
 
 
-Console.WriteLine($@"{Day16.SolveStar1()}");
+Console.WriteLine($@"{Day16.SolveStar2()}");

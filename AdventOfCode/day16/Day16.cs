@@ -85,10 +85,6 @@ public static class Day16 {
             }
         }
 
-        if (!distances.ContainsKey(currentValve)) {
-            distances[currentValve] = GetPathCosts(valves, currentValve);
-        }
-
         var distancesFromHere = distances[currentValve];
         
         var bestPressure = int.MinValue;
@@ -112,14 +108,51 @@ public static class Day16 {
     
     public static int SolveStar1(string inputFile = "day16/input.txt") {
         var valves = GetValves(inputFile).ToDictionary(v => v.Name, v => v);
-        var distances = new Dictionary<string, Dictionary<string, int>>();
+        var distances = GetAllDistances(valves);
         var closedNodes = new HashSet<string>(valves.Values.Where(v => v.FlowRate > 0).Select(v => v.Name));
         var best = SearchSpace(30, closedNodes, "AA", valves, distances, 0);
 
         return best;
     }
     
+    static IEnumerable<IEnumerable<T>> GetKCombs<T>(IEnumerable<T> list, int length) where T : IComparable
+    {
+        if (length == 1) return list.Select(t => new T[] { t });
+        return GetKCombs(list, length - 1)
+            .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0), 
+                (t1, t2) => t1.Concat(new T[] { t2 }));
+    }
+
+    private static Dictionary<string, Dictionary<string, int>> GetAllDistances(Dictionary<string, Valve> valves) {
+        var distances = new Dictionary<string, Dictionary<string, int>>();
+        foreach (var kv in valves) {
+            distances[kv.Key] = GetPathCosts(valves, kv.Key);
+        }
+        return distances;
+    }
+    
     public static long SolveStar2(string inputFile = "day16/input.txt") {
-        return -1;
+        var valves = GetValves(inputFile).ToDictionary(v => v.Name, v => v);
+        var distances = GetAllDistances(valves);
+        var valvesThatMatter = valves.Values.Where(v => v.FlowRate > 0).Select(v => v.Name).ToList();
+
+        var best = -1;
+        for (var split = 1; split <= valvesThatMatter.Count / 2; split++) {
+            foreach (var set1Data in GetKCombs(valvesThatMatter, split)) {
+                var set1 = new HashSet<string>(set1Data);
+                var valves1 = valves.Where(v => set1.Contains(v.Key)).ToDictionary(kv => kv.Key, kv => kv.Value);
+                var set2 = new HashSet<string>(valvesThatMatter);
+                set2.ExceptWith(set1);
+                var valves2 = valves.Where(v => set2.Contains(v.Key)).ToDictionary(kv => kv.Key, kv => kv.Value);
+                var scoreSet1 = SearchSpace(26, new HashSet<string>(set1), "AA", valves1, distances, 0);
+                var scoreSet2 = SearchSpace(26, set2, "AA", valves2, distances, 0);
+                var totalScore = scoreSet1 + scoreSet2;
+                if (totalScore > best) {
+                    best = totalScore;
+                }   
+            }
+        }
+        
+        return best;
     }
 }
